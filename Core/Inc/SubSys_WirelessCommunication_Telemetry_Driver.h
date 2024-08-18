@@ -44,7 +44,8 @@ typedef struct{
 	/*####################### GROUND STATION UNIT VARIABLES #######################*/
 
 			float PAY_IOT_Temperature;					/* Unit : float(4Byte) e.g => 23.45°    	  */
-			char PAY_dataRHRH[4];						/* Unit : char(1Byte)  e.g => '3','G','7','B' */
+			char  PAY_dataRHRH[4];						/* Unit : char(1Byte)  e.g => '3','G','7','B' */
+			char  PAY_SeparationCommand;				/* Unit : char(1Byte)  e.g => '+' or '-'	  */
 
 }SubSys_WirelessCom_VariableTypeDef;
 

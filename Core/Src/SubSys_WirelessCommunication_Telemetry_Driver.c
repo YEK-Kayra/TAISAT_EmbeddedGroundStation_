@@ -33,11 +33,12 @@ void SubSys_WirelessCom_Telemetry_Transfer_From_To(MissionUnit From_X, MissionUn
 
 	/*! We continue create a telemetry packet for transmitting to payload*/
 	Written_Bytes = sprintf(dev_WirelessComApp->Buffer.Temp,
-															"G<%c%c%c%c><%.2f>",
+															"G<%c%c%c%c%c><%.2f>",
 																			   dev_WirelessComApp->Variable.PAY_dataRHRH[0],
 																			   dev_WirelessComApp->Variable.PAY_dataRHRH[1],
 																			   dev_WirelessComApp->Variable.PAY_dataRHRH[2],
 																			   dev_WirelessComApp->Variable.PAY_dataRHRH[3],
+																			   dev_WirelessComApp->Variable.PAY_SeparationCommand,
 																			   dev_WirelessComApp->Variable.PAY_IOT_Temperature);
 	for(cnt = 0 ; cnt < Written_Bytes ; cnt++)
 	{
@@ -79,11 +80,11 @@ void SubSys_WirelessCom_Telemetry_Create_Packet_For(MissionUnit x,SubSys_Wireles
 				dev_WirelessComApp->Buffer.Tx[1] = dev_WirelessComApp->Target_ADDL;
 				dev_WirelessComApp->Buffer.Tx[2] = dev_WirelessComApp->Target_Ch;
 
-				/*-------------YOUR DEVICE VARIABLE THAT YOU WİLL SEND----------------*/ /*Note : Will be system variable opposite to variables*/
-				/*From MS5611*/
-
+				/*-------------YOUR DEVICE VARIABLE THAT YOU WİLL SEND----------------*/
 				/*! We need to get temperature IOT data from the Embedded ground station and save into the variable */
 				dev_WirelessComApp->Variable.PAY_IOT_Temperature = MS5611_Temp;
+
+
 
 }
 void SubSys_WirelessCom_Telemetry_Receive_From_To(MissionUnit From_X, MissionUnit To_Y, SubSys_WirelessCom_APP_HandleTypeDef *dev_WirelessComApp){
