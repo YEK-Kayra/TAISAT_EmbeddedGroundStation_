@@ -185,6 +185,7 @@ int main(void)
   	 dev_WirelessComApp.Target_ADDL = 0x53;
   	 dev_WirelessComApp.Target_Ch   = 0x05;
 
+
   	  /*! Interrupt is active for receiving wireless data
   	   * You need to cast variable type from char to uint8_t because of the instruction of Uart Receive function*/
   	  HAL_UART_Receive_IT(dev_WirelessComApp.huartX, (uint8_t *)dev_WirelessComApp.Buffer.Rx, sizeof(dev_WirelessComApp.Buffer.Rx));
@@ -192,7 +193,10 @@ int main(void)
     /******<<< WIRELESS COMMUNICATION SETTING & TELEMETRY INITIALIZATION END <<<******/
 
 	/******>>> USB-TTL INITIALIZATION BEGIN >>>******/
+
+  	 /*! Start receiving from Laptop(GroundStation) to EmbeddedGroundStation(STM32)*/
 	 HAL_UART_Receive_IT(&huart1, UsbTTL2EmbeddedGS, sizeof(UsbTTL2EmbeddedGS));
+
 	/******<<< USB-TTL INITIALIZATION END <<<******/
 
 
@@ -203,8 +207,11 @@ int main(void)
   while (1)
   {
 
-	  MS5611_ReadRaw_Press_Temp(&MS5611);
+	  /*! Read ambiance temperature for IOT mission */
+	  MS5611_Read_ActVal(&MS5611);
 
+	  /*! Do it by 1Hz*/
+	  HAL_Delay(1000);
 
     /* USER CODE END WHILE */
 

@@ -31,30 +31,39 @@ uint8_t cnt;
   */
 void SubSys_WirelessCom_Telemetry_Transfer_From_To(MissionUnit From_X, MissionUnit To_Y, SubSys_WirelessCom_APP_HandleTypeDef *dev_WirelessComApp){
 
-	/*! We continue create a telemetry packet for transmitting to payload*/
-	Written_Bytes = sprintf(dev_WirelessComApp->Buffer.Temp,
-															"G<%c%c%c%c%c><%.2f>",
-																			   dev_WirelessComApp->Variable.PAY_dataRHRH[0],
-																			   dev_WirelessComApp->Variable.PAY_dataRHRH[1],
-																			   dev_WirelessComApp->Variable.PAY_dataRHRH[2],
-																			   dev_WirelessComApp->Variable.PAY_dataRHRH[3],
-																			   dev_WirelessComApp->Variable.PAY_SeparationCommand,
-																			   dev_WirelessComApp->Variable.PAY_IOT_Temperature);
-	for(cnt = 0 ; cnt < Written_Bytes ; cnt++)
-	{
 
-		dev_WirelessComApp->Buffer.Tx[cnt+3] = dev_WirelessComApp->Buffer.Temp[cnt]; /*End of the array has \n character*/
+	SubSys_WirelessCom_Telemetry_Create_Packet_For(GroundStationMcu, dev_WirelessComApp);
 
-	}
+			/*! We continue create a telemetry packet for transmitting to payload*/
+			Written_Bytes = sprintf(dev_WirelessComApp->Buffer.Temp,
+																	"G<%c%c%c%c%c><%.2f>",
+																					   dev_WirelessComApp->Variable.PAY_dataRHRH[0],
+																					   dev_WirelessComApp->Variable.PAY_dataRHRH[1],
+																					   dev_WirelessComApp->Variable.PAY_dataRHRH[2],
+																					   dev_WirelessComApp->Variable.PAY_dataRHRH[3],
+																					   dev_WirelessComApp->Variable.PAY_SeparationCommand,
+																					   dev_WirelessComApp->Variable.PAY_IOT_Temperature);
 
-	for(uint8_t j=(cnt+3) ; j < SizeOf_Wireless_TX_Buff_PAYLOAD ; j++)
-	{
+			/*! Fill Embedded ground station command and ambiance temperature info */
+			for(cnt = 0 ; cnt < Written_Bytes ; cnt++)
+			{
 
-		dev_WirelessComApp->Buffer.Tx[j] = '*';
+				dev_WirelessComApp->Buffer.Tx[cnt+3] = dev_WirelessComApp->Buffer.Temp[cnt]; /*End of the array has \n character*/
 
-	}
+			}
 
-	HAL_UART_Transmit(dev_WirelessComApp->huartX, dev_WirelessComApp->Buffer.Tx , SizeOf_Wireless_TX_Buff_PAYLOAD, 1000);
+			/*! Fill gaps with character '*', So we create a 30bytes buffer */
+			for(uint8_t j=(cnt+3) ; j < SizeOf_Wireless_TX_Buff_PAYLOAD ; j++)
+			{
+
+				dev_WirelessComApp->Buffer.Tx[j] = '*';
+
+			}
+
+			/*! Transmit all Tx buffer(uint8_t) to the Payload of Satellite
+			 * Total Size 30byte
+			 */
+			HAL_UART_Transmit(dev_WirelessComApp->huartX, dev_WirelessComApp->Buffer.Tx , SizeOf_Wireless_TX_Buff_PAYLOAD, 1000);
 
 }
 

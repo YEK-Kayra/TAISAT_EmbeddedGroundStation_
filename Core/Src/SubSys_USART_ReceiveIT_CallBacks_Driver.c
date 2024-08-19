@@ -57,8 +57,15 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 		}
 
 
+		/*! We need to send this packet to the Payload from Embedded ground station to Payload of Satellite */
+		SubSys_WirelessCom_Telemetry_Transfer_From_To(GroundStationMcu, Sat_Payload, &dev_WirelessComApp);
 
+		/*! Start listening to the ground station again on the UART1 channel,
+		 * 	and trigger an interrupt if data is received.
+		 */
 		HAL_UART_Receive_IT(&huart1, UsbTTL2EmbeddedGS, sizeof(UsbTTL2EmbeddedGS));
+
+
 	}
 
 
