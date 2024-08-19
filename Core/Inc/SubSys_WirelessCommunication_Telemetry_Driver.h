@@ -7,6 +7,7 @@
          				#### WIRELESSCOM INCLUDES ####
 ******************************************************************************/
 #include "main.h"
+#include "SubSys_USART_ReceiveIT_CallBacks_Driver.h"
 
 /******************************************************************************
          				#### WIRELESSCOM DEFINITIONS ####
@@ -35,6 +36,7 @@ typedef enum{
 extern UART_HandleTypeDef huart2;
 extern UART_HandleTypeDef huart1;
 extern float  MS5611_Temp;			/*! Temperature data variable 		*/
+
 /******************************************************************************
          				#### WIRELESSCOM STRUCTS ####
 ******************************************************************************/

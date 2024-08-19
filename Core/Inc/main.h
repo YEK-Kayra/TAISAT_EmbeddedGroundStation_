@@ -31,7 +31,10 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "SubSys_Sensor_TPGVH_Driver.h"						/*! IOT data comes from this library*/
+#include "SubSys_WirelessCommunication_Setting_Driver.h"	/*! Maybe we can set our lora configuration by stm32 MCU*/
+#include "SubSys_WirelessCommunication_Telemetry_Driver.h"	/*! This library provides Wireless communication between EmbeddedGroundStation(EmbeddedGS) and Payload of Satellite */
+#include "SubSys_USART_ReceiveIT_CallBacks_Driver.h"		/*! Interrupts events will be managed in this library, EmbeddedGS to PC , Payload to EmbeddedGS*/
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

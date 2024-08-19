@@ -77,22 +77,22 @@ UART_HandleTypeDef huart2;	/*! Wireless Communication  */
 	SubSys_WirelesscomConfig_HandleTypeDef dev_WirelessComConfig;
 	SubSys_WirelessCom_APP_HandleTypeDef dev_WirelessComApp;
 
-/*
-	 ===============================================================================
-						  ##### SINGLE VARIABLE #####
-	 ===============================================================================
-*/
-	/*! CommandPC(GroundStation) send a packet :
-	 * e.g ==> *G<3R7B+> or *G<????->
-	 * Let's we explain what are they
-	 * 			 '*' 			 -> CommandPC(GroundStation) wants a telepacket
-	 * 			 'G' 			 -> We put 'G' char into the telemetry packet that we will send to the payload
-	 * 			 '3' 'R' '7' 'B' -> Chars number and letter for Color Filtering
-	 * 			 -,+ 			 ->	Manuel Deploy command, + manuel deploy active, - manuel deploy deactive
-	 *
-	 */
-	char UsbTTL2EmbeddedGS[9];
-	char EmbeddedGS2Payload[30];
+	  /*
+	  	 ===============================================================================
+	  						  ##### SINGLE VARIABLE #####
+	  	 ===============================================================================
+	  */
+	  	/*! CommandPC(GroundStation) send a packet :
+	  	 * e.g ==> *G<3R7B+> or *G<????->
+	  	 * Let's we explain what are they
+	  	 * 			 '*' 			 -> CommandPC(GroundStation) wants a telepacket
+	  	 * 			 'G' 			 -> We put 'G' char into the telemetry packet that we will send to the payload
+	  	 * 			 '3' 'R' '7' 'B' -> Chars number and letter for Color Filtering
+	  	 * 			 -,+ 			 ->	Manuel Deploy command, + manuel deploy active, - manuel deploy deactive
+	  	 *
+	  	 */
+	  	char UsbTTL2EmbeddedGS[9];
+	  	char EmbeddedGS2Payload[30];
 
 /* USER CODE END PV */
 

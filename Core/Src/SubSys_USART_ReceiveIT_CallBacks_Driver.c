@@ -1,5 +1,21 @@
 #include "SubSys_USART_ReceiveIT_CallBacks_Driver.h"
 
+
+
+extern	  	char 								 EmbeddedGS2Payload[30];
+extern 		SubSys_WirelessCom_APP_HandleTypeDef dev_WirelessComApp;
+
+	/*! CommandPC(GroundStation) send a packet :
+	 * e.g ==> *G<3R7B+> or *G<????->
+	 * Let's we explain what are they
+	 * 			 '*' 			 -> CommandPC(GroundStation) wants a telepacket
+	 * 			 'G' 			 -> We put 'G' char into the telemetry packet that we will send to the payload
+	 * 			 '3' 'R' '7' 'B' -> Chars number and letter for Color Filtering
+	 * 			 -,+ 			 ->	Manuel Deploy command, + manuel deploy active, - manuel deploy deactive
+	 *
+	 */
+extern	  	char								  UsbTTL2EmbeddedGS[9];
+
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 
@@ -29,7 +45,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
 
 		/*! Ground Station PC send a RHRH packet for color filtering*/
-		if((UsbTTL2EmbeddedGS[3] !='?') && (UsbTTL2EmbeddedGS[4] !='?') && (UsbTTL2EmbeddedGS[5] !='?') && (UsbTTL2EmbeddedGS[5] !='6'))
+		if((UsbTTL2EmbeddedGS[3] !='?') && (UsbTTL2EmbeddedGS[4] !='?') && (UsbTTL2EmbeddedGS[5] !='?') && (UsbTTL2EmbeddedGS[5] !='?'))
 		{
 			dev_WirelessComApp.Variable.PAY_dataRHRH[0] = UsbTTL2EmbeddedGS[3];
 			dev_WirelessComApp.Variable.PAY_dataRHRH[1] = UsbTTL2EmbeddedGS[4];
@@ -47,7 +63,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
 
 		/*! Ground Station PC send a separation command*/
-		if(UsbTTL2EmbeddedGS[6] !='+')
+		if(UsbTTL2EmbeddedGS[6] =='+')
 		{
 			dev_WirelessComApp.Variable.PAY_SeparationCommand = '+';
 		}

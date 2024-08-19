@@ -3,6 +3,7 @@
          				#### WIRELESSCOM INCLUDES ####
 ******************************************************************************/
 #include "SubSys_WirelessCommunication_Telemetry_Driver.h"
+
 #include "stdio.h"
 #include "stdlib.h"
 /******************************************************************************
@@ -10,9 +11,30 @@
 ******************************************************************************/
 uint16_t Written_Bytes; /* is for save number of total converted buffer's characters*/
 uint8_t cnt;
+
+
+/******************************************************************************
+         				#### WIRELESSCOM  EXTERNS ####
+******************************************************************************/
+extern	  	char 								 EmbeddedGS2Payload[30];
+
+	/*! CommandPC(GroundStation) send a packet :
+	 * e.g ==> *G<3R7B+> or *G<????->
+	 * Let's we explain what are they
+	 * 			 '*' 			 -> CommandPC(GroundStation) wants a telepacket
+	 * 			 'G' 			 -> We put 'G' char into the telemetry packet that we will send to the payload
+	 * 			 '3' 'R' '7' 'B' -> Chars number and letter for Color Filtering
+	 * 			 -,+ 			 ->	Manuel Deploy command, + manuel deploy active, - manuel deploy deactive
+	 *
+	 */
+extern	  	char								  UsbTTL2EmbeddedGS[9];
+
 /******************************************************************************
          				#### WIRELESSCOM  FUNCTIONS ####
 ******************************************************************************/
+
+
+
 
 /**
   * @brief Decimal, float and other formats are converted as character and save them into the TX buffer.
@@ -64,7 +86,7 @@ void SubSys_WirelessCom_Telemetry_Transfer_From_To(MissionUnit From_X, MissionUn
 			 * Total Size 30byte
 			 */
 			HAL_UART_Transmit(dev_WirelessComApp->huartX, dev_WirelessComApp->Buffer.Tx , SizeOf_Wireless_TX_Buff_PAYLOAD, 1000);
-
+			//HAL_UART_Transmit(dev_WirelessComApp->huartX, (uint8_t *)dev_WirelessComApp->Buffer.Tx , SizeOf_Wireless_TX_Buff_PAYLOAD, 1000);
 }
 
 
@@ -91,7 +113,14 @@ void SubSys_WirelessCom_Telemetry_Create_Packet_For(MissionUnit x,SubSys_Wireles
 
 				/*-------------YOUR DEVICE VARIABLE THAT YOU WİLL SEND----------------*/
 				/*! We need to get temperature IOT data from the Embedded ground station and save into the variable */
+
 				dev_WirelessComApp->Variable.PAY_IOT_Temperature = MS5611_Temp;
+
+				dev_WirelessComApp->Variable.PAY_dataRHRH[0]	   =  UsbTTL2EmbeddedGS[3];
+				dev_WirelessComApp->Variable.PAY_dataRHRH[1] 	   =  UsbTTL2EmbeddedGS[4];
+				dev_WirelessComApp->Variable.PAY_dataRHRH[2] 	   =  UsbTTL2EmbeddedGS[5];
+				dev_WirelessComApp->Variable.PAY_dataRHRH[3] 	   =  UsbTTL2EmbeddedGS[6];
+				dev_WirelessComApp->Variable.PAY_SeparationCommand =  UsbTTL2EmbeddedGS[7];
 
 
 
